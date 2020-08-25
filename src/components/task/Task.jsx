@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Card, CardContent, Typography} from "@material-ui/core";
 
+import DataTable from "./DataTable";
 import ExampleTable from "./ExampleTable";
 
 // import data from "../../data";
@@ -20,7 +21,7 @@ class Task extends Component {
     render() {
         return(
             <div>
-                <Card>
+                {/* <Card>
                     <CardContent>
                         <Typography>
                             <b>Fetch the following URL in the comments to access the data. </b>
@@ -35,10 +36,11 @@ class Task extends Component {
                             Replace the example table with your solution below.
                         </Typography>
                     </CardContent>
-                </Card>
+                </Card> */}
                 { /* Replace this example table with your solution below. 
                 You are more than welcome to organise your code into different files where appropriate. */}
-                <ExampleTable />
+                <DataTable />
+                
             </div>
         );
     }
