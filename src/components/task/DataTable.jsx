@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableCell,
@@ -58,7 +58,7 @@ function DataTable(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const { embarked, survived, gender, ticket } = props;
+  const { embarked, survived, gender, ticket, chartData } = props;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -109,6 +109,36 @@ function DataTable(props) {
     return true;
   }
 
+  function updateChartData(records) {
+    console.log(records);
+    const males = records.filter((obj) => obj.fields.sex === "male").length;
+    const females = records.filter((obj) => obj.fields.sex === "female").length;
+    const c = records.filter((obj) => obj.fields.embarked === "C").length;
+    const q = records.filter((obj) => obj.fields.embarked === "Q").length;
+    const s = records.filter((obj) => obj.fields.embarked === "S").length;
+    const survived = records.filter((obj) => obj.fields.survived === "Yes")
+      .length;
+    const dead = records.filter((obj) => obj.fields.survived === "No").length;
+    const cheap = records.filter((obj) => obj.fields.fare === "Cheap").length;
+    const regular = records.filter((obj) => obj.fields.fare === "Regular")
+      .length;
+    const expensive = records.filter((obj) => obj.fields.fare === "Expensive")
+      .length;
+
+    props.setChartData({
+      male: males,
+      female: females,
+      c: c,
+      q: q,
+      s: s,
+      survived: survived,
+      dead: dead,
+      cheap: cheap,
+      regular: regular,
+      expensive: expensive,
+    });
+  }
+
   //Checks if filter is applied and filters data. Can be refactored.
   useEffect(() => {
     if (data !== undefined) {
@@ -125,7 +155,7 @@ function DataTable(props) {
         (record) => allFalse(ticket) || ticket[record.fields.fare]
       );
       setFilteredData(filteredData);
-      console.log(gender)
+      updateChartData(filteredData);
     }
   }, [embarked, survived, gender, ticket, data]);
 

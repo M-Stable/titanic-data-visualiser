@@ -42,3 +42,7 @@ Please submit your entry by **Friday 28th August 2020, 5pm.**
 Don't worry if you haven't completed it! You're more than welcome to make an incomplete submission - just let us know when you submit your entry.
 
 Good luck and happy coding! :D
+
+## Findings
+
+Some data has missing Age and Cabin fields

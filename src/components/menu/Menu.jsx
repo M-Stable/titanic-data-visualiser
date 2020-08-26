@@ -4,11 +4,11 @@ import Grid from "@material-ui/core/Grid";
 // tab material
 import Task from "../task/Task";
 
-const Menu = () => {
+const Menu = (props) => {
   return (
     <div>
-      <Grid container xs={12} justify="center" style={{paddingBottom:"5em"}}>
-        <Task />
+      <Grid container xs={12} justify="center" style={{paddingBottom:"2em"}}>
+        <Task setChartData={props.setChartData} chartData={props.chartData}/>
       </Grid>
     </div>
   );

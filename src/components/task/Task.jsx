@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import DataTable from "./DataTable";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -21,7 +20,8 @@ import FormGroup from "@material-ui/core/FormGroup";
 // on Kaggle here
 //  https://www.kaggle.com/c/titanic/data
 
-function Task() {
+function Task(props) {
+
   const [embark, setEmbark] = useState({
     C: false,
     Q: false,
@@ -61,7 +61,7 @@ function Task() {
   return (
     <div>
       {loading && (
-        <Card style={{ padding: 10}}>
+        <Card style={{ padding: 15}}>
           <Grid container direction="row" justify="center" alignItems="center">
             <Grid item xs={3}>
               <FormControl component="fieldset">
@@ -211,6 +211,8 @@ function Task() {
         gender={gender}
         ticket={ticket}
         setLoading={setLoading}
+        setChartData={props.setChartData}
+        chartData={props.chartData}
       />
     </div>
   );
