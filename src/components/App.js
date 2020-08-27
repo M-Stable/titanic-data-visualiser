@@ -157,11 +157,12 @@ const App = () => {
           //make sure there's no long floats
           if (record.fields.age < 1) record.fields.age = "<1";
         });
+        const noFare = records.filter((record) => record.fields.fare !== 0);
         //remove any records that did not pay for a fare
-        setData(records.filter((record) => record.fields.fare !== 0));
-        setFilteredData(records.filter((record) => record.fields.fare !== 0));
+        setData(noFare);
+        setFilteredData(noFare);
         //necessary if no filters are applied. Chart values are set to default.
-        updateChartData(records.filter((record) => record.fields.fare !== 0));
+        updateChartData(noFare);
       });
     setLoading(true);
   };

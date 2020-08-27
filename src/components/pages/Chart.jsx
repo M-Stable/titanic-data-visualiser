@@ -1,5 +1,14 @@
 import React from "react";
-import { Bar, BarChart, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import {
+  Bar,
+  BarChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  PieChart,
+  Pie,
+} from "recharts";
 import Grid from "@material-ui/core/Grid";
 import { Typography, Container, Button } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -60,6 +69,52 @@ function Chart(props) {
     },
   ];
 
+  const RADIAN = Math.PI / 180;
+  //To display correct pie chart information
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    payload,
+    index,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const sin = Math.sin(-RADIAN * midAngle);
+    const cos = Math.cos(-RADIAN * midAngle);
+    const mx = cx + (outerRadius + 30) * cos;
+    const my = cy + (outerRadius + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ey = my;
+    const textAnchor = cos >= 0 ? "start" : "end";
+
+    return (
+      <g>
+        <text
+          x={x}
+          y={y}
+          fill="white"
+          textAnchor={x > cx ? "start" : "end"}
+          dominantBaseline="central"
+        >
+          {`${(percent * 100).toFixed(0)}%`}
+        </text>
+        <text
+          x={ex + (cos >= 0 ? 1 : -1) * 12}
+          y={ey}
+          textAnchor={textAnchor}
+          fill="#333"
+        >
+          {payload.name + ": " + payload.people}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <div>
       {!loading ? (
@@ -72,27 +127,39 @@ function Chart(props) {
             </Grid>
             <Grid item container direction="column" alignItems="center" xs={6}>
               <Typography>Number of males and females</Typography>
-              <BarChart width={400} height={400} data={gender}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="people" fill="#327F73" />
-              </BarChart>
+              <PieChart width={400} height={400}>
+                <Pie
+                  isAnimationActive={false}
+                  data={gender}
+                  cx={200}
+                  cy={200}
+                  label={renderCustomizedLabel}
+                  dataKey="people"
+                  nameKey="name"
+                  outerRadius={100}
+                  fill="#327F73"
+                />
+              </PieChart>
+            </Grid>
+            <Grid item container direction="column" alignItems="center" xs={6}>
+              <Typography>Number that survived</Typography>
+              <PieChart width={400} height={400}>
+                <Pie
+                  isAnimationActive={false}
+                  data={survived}
+                  cx={200}
+                  cy={200}
+                  label={renderCustomizedLabel}
+                  dataKey="people"
+                  nameKey="name"
+                  outerRadius={100}
+                  fill="#449A7B"
+                />
+              </PieChart>
             </Grid>
             <Grid item container direction="column" alignItems="center" xs={6}>
               <Typography>Places where passengers embarked</Typography>
               <BarChart width={400} height={400} data={embarked}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="people" fill="#449A7B" />
-              </BarChart>
-            </Grid>
-            <Grid item container direction="column" alignItems="center" xs={6}>
-              <Typography>Number that survived</Typography>
-              <BarChart width={400} height={400} data={survived}>
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
