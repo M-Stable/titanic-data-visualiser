@@ -19,11 +19,11 @@ function Chart(props) {
 
   const gender = [
     {
-      name: "Males",
+      name: "M",
       people: chartData.male,
     },
     {
-      name: "Females",
+      name: "F",
       people: chartData.female,
     },
   ];
@@ -90,7 +90,6 @@ function Chart(props) {
     const my = cy + (outerRadius + 30) * sin;
     const ex = mx + (cos >= 0 ? 1 : -1) * 22;
     const ey = my;
-    const textAnchor = cos >= 0 ? "start" : "end";
 
     return (
       <g>
@@ -98,18 +97,18 @@ function Chart(props) {
           x={x}
           y={y}
           fill="white"
-          textAnchor={x > cx ? "start" : "end"}
+          textAnchor={"middle"}
           dominantBaseline="central"
         >
-          {`${(percent * 100).toFixed(0)}%`}
+          {`${payload.name + ": " + (percent * 100).toFixed(0)}%`}
         </text>
         <text
           x={ex + (cos >= 0 ? 1 : -1) * 12}
           y={ey}
-          textAnchor={textAnchor}
+          textAnchor={"start"}
           fill="#333"
         >
-          {payload.name + ": " + payload.people}
+          {payload.people}
         </text>
       </g>
     );
@@ -126,7 +125,7 @@ function Chart(props) {
               <Typography variant="h2">Charts by filtered data</Typography>
             </Grid>
             <Grid item container direction="column" alignItems="center" xs={6}>
-              <Typography>Number of males and females</Typography>
+              <Typography>Males to Female Ratio</Typography>
               <PieChart width={400} height={400}>
                 <Pie
                   isAnimationActive={false}
@@ -142,7 +141,7 @@ function Chart(props) {
               </PieChart>
             </Grid>
             <Grid item container direction="column" alignItems="center" xs={6}>
-              <Typography>Number that survived</Typography>
+              <Typography>Survival Ratio</Typography>
               <PieChart width={400} height={400}>
                 <Pie
                   isAnimationActive={false}
