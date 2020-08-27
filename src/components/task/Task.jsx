@@ -7,8 +7,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormGroup from "@material-ui/core/FormGroup";
-
-// import data from "../../data";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 
 // Use the following url to access the data
 // https://public.opendatasoft.com/api/records/1.0/search/?dataset=titanic-passengers&q=&rows=1000
@@ -20,8 +20,11 @@ import FormGroup from "@material-ui/core/FormGroup";
 // on Kaggle here
 //  https://www.kaggle.com/c/titanic/data
 
-function Task(props) {
+/**This component renders the filterbox and datatable */
 
+function Task(props) {
+  //These are all the initial states for filtering. When user checks a checkbox,
+  //the corresponding values are set to true and passed down to the datatable.
   const [embark, setEmbark] = useState({
     C: false,
     Q: false,
@@ -40,8 +43,16 @@ function Task(props) {
     Regular: false,
     Expensive: false,
   });
-  const [loading, setLoading] = useState(false);
+  const {
+    setChartData,
+    data,
+    filteredData,
+    setFilteredData,
+    loading,
+    updateChartData,
+  } = props;
 
+  //functions to update filter state
   const handleEmbarkChange = (event) => {
     setEmbark({ ...embark, [event.target.name]: event.target.checked });
   };
@@ -60,9 +71,9 @@ function Task(props) {
 
   return (
     <div>
-      {loading && (
-        <Card style={{ padding: 15}}>
-          <Grid container direction="row" justify="center" alignItems="center">
+      <Card style={{ padding: 15, margin: "0 100px 0 100px" }}>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item container xs={11}>
             <Grid item xs={3}>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Embarked</FormLabel>
@@ -76,7 +87,7 @@ function Task(props) {
                       />
                     }
                     label="C"
-                    labelPlacement="start"
+                    labelPlacement="bottom"
                   />
                   <FormControlLabel
                     control={
@@ -87,7 +98,7 @@ function Task(props) {
                       />
                     }
                     label="Q"
-                    labelPlacement="start"
+                    labelPlacement="bottom"
                   />
                   <FormControlLabel
                     control={
@@ -98,7 +109,7 @@ function Task(props) {
                       />
                     }
                     label="S"
-                    labelPlacement="start"
+                    labelPlacement="bottom"
                   />
                 </FormGroup>
               </FormControl>
@@ -116,7 +127,7 @@ function Task(props) {
                       />
                     }
                     label="Yes"
-                    labelPlacement="start"
+                    labelPlacement="bottom"
                   />
                   <FormControlLabel
                     control={
@@ -127,7 +138,7 @@ function Task(props) {
                       />
                     }
                     label="No"
-                    labelPlacement="start"
+                    labelPlacement="bottom"
                   />
                 </FormGroup>
               </FormControl>
@@ -145,7 +156,7 @@ function Task(props) {
                       />
                     }
                     label="Female"
-                    labelPlacement="start"
+                    labelPlacement="bottom"
                   />
                   <FormControlLabel
                     control={
@@ -156,7 +167,7 @@ function Task(props) {
                       />
                     }
                     label="Male"
-                    labelPlacement="start"
+                    labelPlacement="bottom"
                   />
                 </FormGroup>
               </FormControl>
@@ -173,8 +184,8 @@ function Task(props) {
                         name="Cheap"
                       />
                     }
-                    label="Cheap"
-                    labelPlacement="start"
+                    label="$"
+                    labelPlacement="bottom"
                   />
                   <FormControlLabel
                     control={
@@ -184,8 +195,8 @@ function Task(props) {
                         name="Regular"
                       />
                     }
-                    label="Regular"
-                    labelPlacement="start"
+                    label="$$"
+                    labelPlacement="bottom"
                   />
                   <FormControlLabel
                     control={
@@ -195,24 +206,34 @@ function Task(props) {
                         name="Expensive"
                       />
                     }
-                    label="Expensive"
-                    labelPlacement="start"
+                    label="$$$"
+                    labelPlacement="bottom"
                   />
                 </FormGroup>
               </FormControl>
             </Grid>
           </Grid>
-        </Card>
-      )}
+          <Grid item xs={1}>
+            <Link to={"/chart"} style={{ textDecoration: "none" }}>
+              <Button fullWidth variant="outlined" color="primary">
+                View Charts
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
+      </Card>
       <br />
       <DataTable
         embarked={embark}
         survived={survive}
         gender={gender}
         ticket={ticket}
-        setLoading={setLoading}
-        setChartData={props.setChartData}
-        chartData={props.chartData}
+        setChartData={setChartData}
+        data={data}
+        filteredData={filteredData}
+        setFilteredData={setFilteredData}
+        loading={loading}
+        updateChartData={updateChartData}
       />
     </div>
   );
