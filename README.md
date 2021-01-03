@@ -1,10 +1,9 @@
-# 🚢 FED intern task 2020
-
-A React based website for Quantiful Internship. Displays data of the 1912 titanic passengers.
+# 🚢 Titanic Data Visualiser
+A React based website that fetches the Titanic passenger data and gives visualisations using the Recharts library.
 ## Project setup
 
 ```
-cd fed-intern-test-2020
+cd ./titanic-data-visualiser
 
 npm install
 
